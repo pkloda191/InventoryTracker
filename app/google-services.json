@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "962730412155",
+    "firebase_url": "https://inventory-tracker-87d55.firebaseio.com",
+    "project_id": "inventory-tracker-87d55",
+    "storage_bucket": "inventory-tracker-87d55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962730412155:android:df9ea9a0d3f2af2a",
+        "android_client_info": {
+          "package_name": "com.example.inventorytracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "962730412155-6eh4mmgjk8n28t5ik684o43obtnjidiq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.inventorytracker",
+            "certificate_hash": "d6ddbbf8d9657f6bb169d51a75effdc5a9cdd5ad"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHImzSeecNNA9LGz_fhMmilFwnaFou8uk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "962730412155-8pqcc0pr2b5t24gdhsn6pjd64mpa3nvk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
