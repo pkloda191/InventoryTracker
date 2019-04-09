@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
+        //Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
         /*
         Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
         Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_inventory) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_additem) {
             makeDialogBox(); //does the same as the fab button
         } else if (id == R.id.nav_print) {
@@ -118,9 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_settings) {
             //fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
         } else if (id == R.id.nav_help) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new HelpPageFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new HelpPageFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_about) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutPageFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutPageFragment()).addToBackStack("tag").commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

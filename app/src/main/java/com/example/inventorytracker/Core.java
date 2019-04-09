@@ -30,6 +30,7 @@ public class Core
             {
                 // Get Post object and use the values to update the UI
                 Core.numItems = 0;
+                Core.itemList.removeAll(itemList);
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Item item = ds.getValue(Item.class);
