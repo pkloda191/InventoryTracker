@@ -20,8 +20,7 @@ public class ViewInventoryFragment extends ListFragment
         myView = inflater.inflate(R.layout.view_inventory, container, false);
         Core.itemAdapter = new ItemCustomArrayAdapter(getActivity(), Core.itemList);
         setListAdapter(Core.itemAdapter);
+        Core.itemAdapter.notifyDataSetChanged();
         return myView;
     }
-
-
 }

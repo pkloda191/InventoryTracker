@@ -1,9 +1,12 @@
 package com.example.inventorytracker;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -26,11 +32,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FirebaseApp.initializeApp(this);
+        //sets the first page to be the inventory
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.content_frame, new ViewInventoryFragment());
+        tx.commit();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            public void onClick(View view)
+            {
+                makeDialogBox();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -44,11 +59,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
+        /*
         Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
         Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
         Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
         Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
         Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
+        */
+
+        Core.listenForDatabaseChanges();
     }
 
     @Override
@@ -83,17 +102,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    FragmentManager fragmentManager = getSupportFragmentManager();
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (id == R.id.nav_inventory) {
-            // Handle the camera action
             fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).commit();
         } else if (id == R.id.nav_additem) {
-            //fragmentManager.beginTransaction().replace(R.id.content_frame, new AddItemFragment()).commit();
+            makeDialogBox(); //does the same as the fab button
         } else if (id == R.id.nav_print) {
             //fragmentManager.beginTransaction().replace(R.id.content_frame, new PrintFragment()).commit();
         } else if (id == R.id.nav_settings) {
@@ -102,11 +121,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.content_frame, new HelpPageFragment()).commit();
         } else if (id == R.id.nav_about) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutPageFragment()).commit();
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void makeDialogBox()
+    {
+        final CharSequence[] items = {
+                "Scan QR Code", "Manual Entry"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Input an item");
+        builder.setItems(items, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int item)
+            {
+                // Do something with the selection
+                //mDoneButton.setText(items[item]);
+                if (item == 0)
+                {
+                    //open qr code scanning fragment
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new QrCodeScanningFragment()).commit();
+                }
+                else
+                {
+                    //open manual entry fragment
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).commit();
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

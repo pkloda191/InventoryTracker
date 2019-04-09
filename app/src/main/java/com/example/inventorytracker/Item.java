@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Item implements Serializable
 {
-    private int mImageDrawable;
+    public int mImageDrawable;
     public String item_name;
     public String location;
     public int quantity;
@@ -17,8 +17,15 @@ public class Item implements Serializable
         this.quantity = quantity;
     }
 
+    public Item(String item_name, String location, int quantity)
+    {
+        this.item_name = item_name;
+        this.location = location;
+        this.quantity = quantity;
+    }
     public Item()
     {
+        this.mImageDrawable = R.drawable.ic_laptop;
         this.item_name = "Test";
         this.location = "Test";
         this.quantity = 1;
