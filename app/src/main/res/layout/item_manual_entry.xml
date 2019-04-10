@@ -7,52 +7,55 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="40dp"
-        android:entries="@drawable/ic_laptop"
         app:layout_constraintBottom_toTopOf="@+id/itemNameET"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/itemNameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="144dp"
         android:ems="10"
         android:hint="Item Name"
         android:inputType="text"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/itemLocationET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="Item Location"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/itemNameET"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemNameET" />
 
     <EditText
         android:id="@+id/itemQuantityET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="Item Quantity"
         android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/itemLocationET"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemLocationET" />
 
     <Button
         android:id="@+id/addItemButton"
         android:layout_width="138dp"
         android:layout_height="112dp"
         android:layout_marginStart="124dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="372dp"
         android:text="Add Item"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

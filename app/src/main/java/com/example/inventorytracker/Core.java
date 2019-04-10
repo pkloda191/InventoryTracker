@@ -19,6 +19,7 @@ public class Core
     private static int numItems = 0;
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static DatabaseReference myRef = database.getReference("items");
+    public static int imageToUseForItem;
 
     public static void listenForDatabaseChanges()
     {

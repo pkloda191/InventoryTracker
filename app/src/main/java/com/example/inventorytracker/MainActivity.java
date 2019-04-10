@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(DialogInterface dialog, int item)
             {
                 // Do something with the selection
-                //mDoneButton.setText(items[item]);
                 if (item == 0)
                 {
                     //open qr code scanning fragment
