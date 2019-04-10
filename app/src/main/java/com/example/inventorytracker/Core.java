@@ -19,6 +19,7 @@ public class Core
     private static int numItems = 0;
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static DatabaseReference myRef = database.getReference("items");
+    public static int imageToUseForItem;
 
     public static void listenForDatabaseChanges()
     {
@@ -30,6 +31,7 @@ public class Core
             {
                 // Get Post object and use the values to update the UI
                 Core.numItems = 0;
+                Core.itemList.removeAll(itemList);
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Item item = ds.getValue(Item.class);
