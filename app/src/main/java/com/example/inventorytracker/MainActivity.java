@@ -25,18 +25,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FirebaseApp.initializeApp(this);
-        //sets the first page to be the inventory
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.content_frame, new ViewInventoryFragment());
-        tx.commit();
+
+        //sets the first page to be the login page / inventory - way of getting around array adapter error
+        FragmentTransaction preLoadInventoryPage = getSupportFragmentManager().beginTransaction();
+        preLoadInventoryPage.replace(R.id.content_frame, new ViewInventoryFragment()).commit();
+        //FragmentTransaction loginPage = getSupportFragmentManager().beginTransaction();
+        //loginPage.replace(R.id.content_frame, new LoginPage()).commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
         Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
         */
-
         Core.listenForDatabaseChanges();
     }
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_additem) {
             makeDialogBox(); //does the same as the fab button
         } else if (id == R.id.nav_print) {
-            //fragmentManager.beginTransaction().replace(R.id.content_frame, new PrintFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new PrintQRCodeFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_settings) {
             //fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
         } else if (id == R.id.nav_help) {

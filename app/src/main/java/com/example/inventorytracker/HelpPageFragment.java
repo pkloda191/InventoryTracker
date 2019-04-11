@@ -15,7 +15,7 @@ public class HelpPageFragment extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        myView = inflater.inflate(R.layout.help_page, container, false);
+        myView = inflater.inflate(R.layout.help_page, container, false); //remember to change the layout
         return myView;
     }
 }

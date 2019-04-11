@@ -34,7 +34,6 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-
         Button addItemButton = (Button)getActivity().findViewById(R.id.addItemButton);
         addItemButton.setOnClickListener(this);
         addItemsOnSpinner();
