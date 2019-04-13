@@ -59,14 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
-        /*
-        Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
-        Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
-        Core.itemList.add(new Item(R.drawable.ic_laptop, "E5450" , "S103", 1));
-        Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex 390" , "S104", 1));
-        Core.itemList.add(new Item(R.drawable.ic_monitor, "Dell Monitor" , "IT Office", 1));
-        */
+        //Core.generateTestData(5);
         Core.listenForDatabaseChanges();
     }
 

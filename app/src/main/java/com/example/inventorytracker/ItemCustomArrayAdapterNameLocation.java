@@ -1,25 +1,24 @@
 package com.example.inventorytracker;
 
-import android.support.annotation.LayoutRes;
-import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemCustomArrayAdapter extends ArrayAdapter<Item>
+public class ItemCustomArrayAdapterNameLocation extends ArrayAdapter<Item>
 {
     private Context mContext;
     private List<Item> itemList = new ArrayList<>();
 
-    public ItemCustomArrayAdapter(@NonNull Context context, ArrayList<Item> list)
+    public ItemCustomArrayAdapterNameLocation(@NonNull Context context, ArrayList<Item> list)
     {
         super(context, 0 , list);
         this.mContext = context;
@@ -33,7 +32,7 @@ public class ItemCustomArrayAdapter extends ArrayAdapter<Item>
         View listItem = convertView;
         if(listItem == null)
         {
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.item_array_adapter,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.item_array_adapter_name_location,parent,false);
         }
 
         Item currentItem = itemList.get(position);
@@ -44,8 +43,8 @@ public class ItemCustomArrayAdapter extends ArrayAdapter<Item>
         TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentItem.getItem_name());
 
-        TextView quantity = (TextView) listItem.findViewById(R.id.textView_quantity);
-        quantity.setText((currentItem.getQuantity()));
+        TextView location = (TextView) listItem.findViewById(R.id.textView_location);
+        location.setText((currentItem.getLocation()));
 
         return listItem;
     }

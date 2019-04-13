@@ -23,12 +23,24 @@ public class Item implements Serializable
         this.location = location;
         this.quantity = quantity;
     }
+
+    public Item(int mImageDrawable, String item_name, int quantity)
+    {
+        this.mImageDrawable = mImageDrawable;
+        this.item_name = item_name;
+        this.quantity = quantity;
+    }
     public Item()
     {
         this.mImageDrawable = R.drawable.ic_laptop;
         this.item_name = "Test";
         this.location = "Test";
         this.quantity = 1;
+    }
+
+    @Override
+    public String toString() {
+        return this.getItem_name();
     }
 
     public int getmImageDrawable() {
