@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //sets the first page to be the login page / inventory - way of getting around array adapter error
         FragmentTransaction preLoadInventoryPage = getSupportFragmentManager().beginTransaction();
         preLoadInventoryPage.replace(R.id.content_frame, new ViewInventoryFragment()).commit();
+        FragmentTransaction LoadCategoryPage = getSupportFragmentManager().beginTransaction();
+        LoadCategoryPage.replace(R.id.content_frame, new ViewCategoriesFragment()).commit();
         //FragmentTransaction loginPage = getSupportFragmentManager().beginTransaction();
         //loginPage.replace(R.id.content_frame, new LoginPage()).commit();
 
@@ -60,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         //Core.generateTestData(5);
+        //Core.generateCategories();
         Core.listenForDatabaseChanges();
+        Core.listenForCategoryChanges();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_inventory) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_additem) {
             makeDialogBox(); //does the same as the fab button
         } else if (id == R.id.nav_print) {

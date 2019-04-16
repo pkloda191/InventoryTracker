@@ -22,9 +22,9 @@ public class ViewInventoryFragment extends ListFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         myView = inflater.inflate(R.layout.view_inventory, container, false);
-        Core.itemAdapter = new ItemCustomArrayAdapter(getActivity(), Core.itemList);
-        setListAdapter(Core.itemAdapter);
-        Core.itemAdapter.notifyDataSetChanged();
+        Core.itemAdapterNameLocation = new ItemCustomArrayAdapterNameLocation(getActivity(), Core.itemList);
+        setListAdapter(Core.itemAdapterNameLocation);
+        Core.itemAdapterNameLocation.notifyDataSetChanged();
         return myView;
     }
 
@@ -33,6 +33,6 @@ public class ViewInventoryFragment extends ListFragment
         super.onViewCreated(view, savedInstanceState);
         Core.fragmentManager = getFragmentManager();
         lv = getListView();
-        lv.setOnItemClickListener(new CustomOnItemClickListener());
+        lv.setOnItemClickListener(new CustomOnItemClickListenerMoreDetails());
     }
 }
