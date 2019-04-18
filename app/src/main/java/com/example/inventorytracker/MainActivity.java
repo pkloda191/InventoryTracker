@@ -1,5 +1,6 @@
 package com.example.inventorytracker;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,9 +55,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null && getCurrentFocus() != null) {
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0); //closes keyboard if opening nav drawer
+                }
+            }
+        };
         drawer.addDrawerListener(toggle);
+
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -63,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Core.generateTestData(5);
         //Core.generateCategories();
+        //Core.generateLocations();
         Core.listenForDatabaseChanges();
         Core.listenForCategoryChanges();
+        Core.listenForLocationChanges();
     }
 
     @Override
@@ -118,7 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.content_frame, new HelpPageFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_about) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new AboutPageFragment()).addToBackStack("tag").commit();
+        } else if (id == R.id.nav_add_category) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new AddCategoryFragment()).addToBackStack("tag").commit();
+        } else if (id == R.id.nav_add_location) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new AddLocationFragment()).addToBackStack("tag").commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

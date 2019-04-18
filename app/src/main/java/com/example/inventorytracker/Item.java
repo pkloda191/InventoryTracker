@@ -17,6 +17,13 @@ public class Item implements Serializable
         this.quantity = quantity;
     }
 
+    public Item(int mImageDrawable, String item_name, String location)
+    {
+        this.mImageDrawable = mImageDrawable;
+        this.item_name = item_name;
+        this.location = location;
+    }
+
     public Item(String item_name, String location, int quantity)
     {
         this.item_name = item_name;

@@ -34,18 +34,19 @@ public class ViewCategoriesFragment extends ListFragment {
         int itemCount = 0;
         for (int i = 0; i < Core.itemCategoriesList.size(); i++)
         {
+            String nameToCompareTo = Core.itemCategoriesList.get(i).toString();
+
             for (int j = 0; j < Core.allItems.size(); i++)
             {
-                String nameToCompareTo = Core.itemCategoriesList.get(i).toString();
-                if (nameToCompareTo.contains(Core.allItems.get(j).toString()))
+                if (Core.allItems.get(j).toString().contains(nameToCompareTo))
                 {
                     itemCount++;
                 }
             }
             Core.itemCategoriesList.get(i).setQuantity(itemCount);
             itemCount = 0;
-        } how get count to update????
-        */
+        }
+        */ //how get count to update
         lv.setOnItemClickListener(new CustomOnItemClickListener());
     }
 }

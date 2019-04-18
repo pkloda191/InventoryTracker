@@ -19,12 +19,10 @@ public class Core extends Fragment
     public static ItemCustomArrayAdapterNameLocation itemAdapterNameLocation;
     final static ArrayList<String> keyList = new ArrayList<>();
     public static FragmentManager fragmentManager;
-    public static ArrayList<Item> itemList = new ArrayList<>();
+    public static ArrayList<Item> itemList = new ArrayList<>(); //view inventory fragment after categories
     public static ArrayList<Item> allItems = new ArrayList<>(); //will need this for QR code item detection; if already exists, present one dialog box, else new entry box
-    public static ArrayList<Item> optiplexList = new ArrayList<>();
-    public static ArrayList<Item> latitudeList = new ArrayList<>();
-    public static ArrayList<Item> monitorList = new ArrayList<>();
     public static ArrayList<ItemCategories> itemCategoriesList = new ArrayList<>();
+    public static ArrayList<ItemLocations> itemLocationList = new ArrayList<>();
     public static int optiplexListItemAmount;
     public static int latitudeListItemAmount;
     public static int monitorListItemAmount;
@@ -32,6 +30,7 @@ public class Core extends Fragment
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static DatabaseReference myRef = database.getReference("items");
     public static DatabaseReference myRefCategories = database.getReference("categories");
+    public static DatabaseReference myRefLocations = database.getReference("locations");
     public static FirebaseAuth auth;
     public static int imageToUseForItem;
 
@@ -103,6 +102,34 @@ public class Core extends Fragment
         Core.myRefCategories.addValueEventListener(prListener);
     }
 
+    public static void listenForLocationChanges()
+    {
+        //async listener
+        ValueEventListener prListener = new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                Core.itemLocationList.removeAll(itemLocationList);
+                for(DataSnapshot ds: dataSnapshot.getChildren())
+                {
+                    ItemLocations itemLocationInDatabase = ds.getValue(ItemLocations.class);
+                    //Core.keyList.add(ds.getKey());
+                    Core.addLocationLocal(itemLocationInDatabase);
+                }
+                //Core.categoriesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                // Getting Post failed, log a message
+                System.out.println("loadPost:onCancelled " + databaseError.toException());
+            }
+        };
+        Core.myRefLocations.addValueEventListener(prListener);
+    }
+
 
     public static void writeItemToFirebase(Item item)
     {
@@ -113,6 +140,11 @@ public class Core extends Fragment
     public static void writeCategoryToFirebase(ItemCategories category)
     {
         Core.myRefCategories.push().setValue(category);
+    }
+
+    public static void writeLocationToFirebase(ItemLocations location)
+    {
+        Core.myRefLocations.push().setValue(location);
     }
 
     public static void addItemLocal(Item item)
@@ -147,6 +179,11 @@ public class Core extends Fragment
         Core.itemCategoriesList.add(category);
     }
 
+    public static void addLocationLocal(ItemLocations location)
+    {
+        Core.itemLocationList.add(location);
+    }
+
     public static void addItemDB(Item item)
     {
         Core.writeItemToFirebase(item); //this is called in the item creation page or when hard coding items
@@ -155,6 +192,11 @@ public class Core extends Fragment
     public static void addCategoryDB(ItemCategories category)
     {
         Core.writeCategoryToFirebase(category); //this is called in the admin page when creating a category or when hard coding categories
+    }
+
+    public static void addLocationDB(ItemLocations location)
+    {
+        Core.writeLocationToFirebase(location);
     }
 
     public static void generateTestData(int numTimes)
@@ -175,6 +217,13 @@ public class Core extends Fragment
         //Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex Desktops", Core.optiplexListItemAmount));
         //Core.itemList.add(new Item(R.drawable.ic_laptop, "Latitude Laptops", Core.latitudeListItemAmount));
         //Core.itemList.add(new Item(R.drawable.ic_monitor, "Monitors", Core.monitorListItemAmount));
+    }
+
+    public static void generateLocations()
+    {
+        addLocationDB(new ItemLocations("Close Storage"));
+        addLocationDB(new ItemLocations("Far Storage"));
+        addLocationDB(new ItemLocations("IT Office"));
     }
 /*
     public static String getBallers()

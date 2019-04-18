@@ -14,7 +14,7 @@
             android:title="Add Item" />
         <item
             android:id="@+id/nav_print"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_camera"
             android:title="Print QR Codes" />
     </group>
 
@@ -34,5 +34,19 @@
                 android:title="About" />
         </menu>
     </item>
+    <group>
+        <item android:title="Administrative Functions">
+            <menu>
+                <item
+                    android:id="@+id/nav_add_category"
+                    android:icon="@android:drawable/ic_menu_edit"
+                    android:title="Add Category" />
+                <item
+                    android:id="@+id/nav_add_location"
+                    android:icon="@android:drawable/ic_menu_mylocation"
+                    android:title="Add Location" />
+            </menu>
+        </item>
+    </group>
 
 </menu>
