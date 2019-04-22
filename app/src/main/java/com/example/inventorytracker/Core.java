@@ -1,11 +1,14 @@
 package com.example.inventorytracker;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,23 +47,14 @@ public class Core extends Fragment
             {
                 // Get Post object and use the values to update the UI
                 Core.numItems = 0;
-                //Core.itemList.removeAll(itemList);
-                //Core.optiplexList.removeAll(optiplexList);
-                //Core.latitudeList.removeAll(latitudeList);
-                //Core.monitorList.removeAll(monitorList);
                 Core.allItems.removeAll(allItems);
-                Core.optiplexListItemAmount = 0;
-                Core.latitudeListItemAmount = 0;
-                Core.monitorListItemAmount = 0;
+                Core.keyList.removeAll(keyList);
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Item itemInDatabase = ds.getValue(Item.class);
                     Core.keyList.add(ds.getKey());
                     Core.addItemLocal(itemInDatabase);
                 }
-                //Core.itemCategoriesList.add(new ItemCategories(R.drawable.ic_desktop, "Optiplex Desktops", Core.numItems));
-                //Core.itemList.add(new Item(R.drawable.ic_laptop, "Latitude Laptops", Core.latitudeListItemAmount));
-                //Core.itemList.add(new Item(R.drawable.ic_monitor, "Monitors", Core.monitorListItemAmount));
                 Core.itemAdapterNameLocation.notifyDataSetChanged();
             }
 
@@ -70,6 +64,7 @@ public class Core extends Fragment
                 // Getting Post failed, log a message
                 System.out.println("loadPost:onCancelled " + databaseError.toException());
             }
+
         };
         Core.myRef.addValueEventListener(prListener);
     }

@@ -49,11 +49,10 @@ public class Item implements Serializable
     public String toString() {
         return this.getItem_name();
     }
-
+    @Exclude
     public int getmImageDrawable() {
         return mImageDrawable;
     }
-
     @Exclude
     public String getItem_name() {
         return item_name;
@@ -78,4 +77,5 @@ public class Item implements Serializable
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }

@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void makeDialogBox()
     {
         final CharSequence[] items = {
-                "Scan QR Code", "Manual Entry"
+                "Scan QR Code", "Manual Item Entry"
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -159,12 +159,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (item == 0)
                 {
                     //open qr code scanning fragment
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, new QrCodeScanningFragment()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new QrCodeScanningFragment()).addToBackStack("tag").commit();
                 }
                 else
                 {
                     //open manual entry fragment
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).addToBackStack("tag").commit();
                 }
             }
         });
