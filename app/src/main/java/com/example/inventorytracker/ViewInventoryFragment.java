@@ -45,7 +45,7 @@ public class ViewInventoryFragment extends ListFragment
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 // Add the buttons
-                Item selectedItem = (Item) parent.getItemAtPosition(position);
+                final Item selectedItem = (Item) parent.getItemAtPosition(position);
                 builder.setTitle(selectedItem.getItem_name());
                 builder.setMessage(selectedItem.getLocation());
                 builder.setPositiveButton("Edit", new DialogInterface.OnClickListener()
@@ -54,6 +54,8 @@ public class ViewInventoryFragment extends ListFragment
                     {
                         //user wants to edit the item
                         //display another dialog box?
+                        Core.itemEditName = selectedItem.getItem_name();
+                        Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).addToBackStack("tag").commit();
                     }
                 });
                 builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {

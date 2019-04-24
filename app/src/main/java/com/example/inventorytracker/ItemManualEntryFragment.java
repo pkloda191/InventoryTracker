@@ -48,6 +48,11 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         addCategoriesOnSpinner();
         addLocationsOnSpinner();
         addListenerOnSpinnerItemSelection();
+        if (Core.itemEditName != null)
+        {
+            EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
+            itemNameET.setText(Core.itemEditName);
+        }
     }
 
     public void onClick(View v)
@@ -61,15 +66,30 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
         //EditText itemLocationET = (EditText)getActivity().findViewById(R.id.itemLocationET);
         //EditText itemQuantityET = (EditText)getActivity().findViewById(R.id.itemQuantityET);
-
         String itemName = itemNameET.getText().toString();
+        setItemImage();
+        boolean itemWasUpdated = false;
+        for (int i = 0; i < Core.allItems.size(); i++)
+        {
+            if (Core.allItems.get(i).getItem_name().contains(itemName))
+            {
+                Core.allItems.get(i).setmImageDrawable(itemImage);
+                Core.allItems.get(i).setLocation(itemLocation);
+                itemWasUpdated = true;
+                Toast.makeText(getActivity(), "Item updated", Toast.LENGTH_SHORT).show();
+                //item change does not save in DB
+            }
+        }
+        if (itemWasUpdated == false)
+        {
+            Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
+            Core.addItemDB(item);
+            Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+        }
         //String itemLocation = itemLocationET.getText().toString();
         //int itemQuantity = Integer.parseInt(itemQuantityET.getText().toString());
-        setItemImage();
-        Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
-        Core.addItemDB(item);
         fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).addToBackStack("tag").commit();
-        Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+
     }
 
     public void addImageSelectionOnSpinner()

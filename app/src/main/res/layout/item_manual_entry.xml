@@ -46,13 +46,12 @@
 
     <Button
         android:id="@+id/addItemButton"
-        android:layout_width="202dp"
+        android:layout_width="247dp"
         android:layout_height="99dp"
-        android:layout_marginTop="292dp"
-        android:text="Add Item"
+        android:layout_marginTop="272dp"
+        android:text="Add/ Update Item"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

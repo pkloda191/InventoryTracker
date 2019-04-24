@@ -36,6 +36,7 @@ public class Core extends Fragment
     public static DatabaseReference myRefLocations = database.getReference("locations");
     public static FirebaseAuth auth;
     public static int imageToUseForItem;
+    public static String itemEditName = null;
 
     public static void listenForDatabaseChanges()
     {
