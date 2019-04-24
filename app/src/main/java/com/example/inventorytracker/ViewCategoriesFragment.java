@@ -1,6 +1,7 @@
 package com.example.inventorytracker;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -30,13 +31,25 @@ public class ViewCategoriesFragment extends ListFragment {
         Core.itemList.removeAll(Core.itemList);
         Core.fragmentManager = getFragmentManager();
         lv = getListView();
-        /*
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                updateQuantities();
+                Core.categoriesAdapter.notifyDataSetChanged();
+            }
+        }, 1000); //update the count 1 sec after activity is created otherwise the arrays are null
+        lv.setOnItemClickListener(new CustomOnItemClickListener());
+    }
+
+    public void updateQuantities()
+    {
         int itemCount = 0;
         for (int i = 0; i < Core.itemCategoriesList.size(); i++)
         {
             String nameToCompareTo = Core.itemCategoriesList.get(i).toString();
+            nameToCompareTo = nameToCompareTo.substring(0,3);
 
-            for (int j = 0; j < Core.allItems.size(); i++)
+            for (int j = 0; j < Core.allItems.size(); j++)
             {
                 if (Core.allItems.get(j).toString().contains(nameToCompareTo))
                 {
@@ -46,7 +59,5 @@ public class ViewCategoriesFragment extends ListFragment {
             Core.itemCategoriesList.get(i).setQuantity(itemCount);
             itemCount = 0;
         }
-        */ //how get count to update
-        lv.setOnItemClickListener(new CustomOnItemClickListener());
     }
 }
