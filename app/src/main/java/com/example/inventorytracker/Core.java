@@ -22,7 +22,7 @@ public class Core extends Fragment
     public static ItemCustomArrayAdapterNameLocation itemAdapterNameLocation;
     final static ArrayList<String> keyList = new ArrayList<>();
     public static FragmentManager fragmentManager;
-    public static ArrayList<Item> itemList = new ArrayList<>(); //view inventory fragment after categories
+    public static ArrayList<Item> itemList = new ArrayList<>(); //view inventory fragment after categories, filters to show appropriate items
     public static ArrayList<Item> allItems = new ArrayList<>(); //will need this for QR code item detection; if already exists, present one dialog box, else new entry box
     public static ArrayList<ItemCategories> itemCategoriesList = new ArrayList<>();
     public static ArrayList<ItemLocations> itemLocationList = new ArrayList<>();

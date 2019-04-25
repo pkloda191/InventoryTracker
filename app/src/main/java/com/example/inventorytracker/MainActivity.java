@@ -105,8 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).addToBackStack("tag").commit();
+        if (id == R.id.action_view_all) {
+            for (int i = 0; i < Core.allItems.size(); i++)
+            {
+                Core.itemList.add(Core.allItems.get(i));
+            }
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
             return true;
         }
         else if(id == R.id.action_search)

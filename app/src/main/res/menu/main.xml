@@ -8,8 +8,8 @@
         android:title="Search Inventory"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_view_all"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="View All Items"
         app:showAsAction="never" />
 </menu>
