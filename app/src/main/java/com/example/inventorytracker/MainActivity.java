@@ -106,9 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).addToBackStack("tag").commit();
             return true;
         }
-
+        else if(id == R.id.action_search)
+        {
+            //search for items
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_print) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new PrintQRCodeFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_settings) {
-            //fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new SettingsFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_help) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new HelpPageFragment()).addToBackStack("tag").commit();
         } else if (id == R.id.nav_about) {
@@ -136,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_add_location) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new AddLocationFragment()).addToBackStack("tag").commit();
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

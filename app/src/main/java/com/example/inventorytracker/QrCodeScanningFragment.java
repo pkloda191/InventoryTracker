@@ -1,8 +1,11 @@
 package com.example.inventorytracker;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
@@ -33,7 +36,8 @@ public class QrCodeScanningFragment extends Fragment
     private TextView textView;
     private BarcodeDetector barcodeDetector;
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
-
+    public static boolean qrCodeItemFound = false;
+    boolean itemFound = false;
     View myView;
 
     @Nullable
@@ -45,7 +49,8 @@ public class QrCodeScanningFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
         surfaceView = (SurfaceView) view.findViewById(R.id.camerapreview);
@@ -55,12 +60,10 @@ public class QrCodeScanningFragment extends Fragment
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder)
-            {
+            public void surfaceCreated(SurfaceHolder holder) {
                 if (ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED)
-                {
+                        != PackageManager.PERMISSION_GRANTED) {
                     // Permission is not granted
                     // Should we show an explanation?
                     if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -79,12 +82,9 @@ public class QrCodeScanningFragment extends Fragment
                     }
                 } else {
                     // Permission has already been granted
-                    try
-                    {
+                    try {
                         cameraSource.start(holder);
-                    }
-                    catch (IOException e)
-                    {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -109,17 +109,86 @@ public class QrCodeScanningFragment extends Fragment
             }
 
             @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
+            public void receiveDetections(Detector.Detections<Barcode> detections)
+            {
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
-                if(qrCodes.size() != 0)
-                {
+                if (qrCodes.size() != 0) {
                     textView.post(new Runnable() {
                         @Override
-                        public void run() {
-                            Vibrator vibrator = (Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                        public void run()
+                        {
+                            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(1000);
                             textView.setText(qrCodes.valueAt(0).displayValue);
+                            QrCodeScanningFragment.qrCodeItemFound = true;
+                            cameraSource.stop();
+                            for (int i = 0; i < Core.allItems.size(); i++)
+                            {
+                                if (Core.allItems.get(i).getItem_name().contains(qrCodes.valueAt(0).displayValue))
+                                {
+                                    //item was found
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    // Add the buttons
+                                    final String qrCodeNameResult = qrCodes.valueAt(0).displayValue;
+                                    builder.setTitle("Item found in database\nDo you want to update it?");
+                                    builder.setMessage(qrCodeNameResult);
+                                    builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Core.itemEditName = qrCodeNameResult;
+                                            Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).addToBackStack("tag").commit();
+                                        }
+                                    });
+                                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // User cancelled the dialog
+                                            //do nothing
+                                        }
+                                    });
+                                    // Create the AlertDialog
+                                    final AlertDialog dialog = builder.create();
+                                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                        @Override
+                                        public void onShow(DialogInterface arg0) {
+                                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#00574B"));
+                                            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#00574B"));
+                                        }
+                                    });
+                                    dialog.show();
+                                    itemFound = true;
+                                    break;
+                                }
+                            }
+                            if (itemFound == false)
+                            {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                // Add the buttons
+                                final String qrCodeNameResult = qrCodes.valueAt(0).displayValue;
+                                builder.setTitle("Item not found in database\nDo you want to add it?");
+                                builder.setMessage(qrCodeNameResult);
+                                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Core.itemEditName = qrCodeNameResult;
+                                        Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).addToBackStack("tag").commit();
+                                    }
+                                });
+                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // User cancelled the dialog
+                                        //do nothing
+                                    }
+                                });
+                                // Create the AlertDialog
+                                final AlertDialog dialog = builder.create();
+                                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                    @Override
+                                    public void onShow(DialogInterface arg0) {
+                                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#00574B"));
+                                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#00574B"));
+                                    }
+                                });
+                                dialog.show();
+                            }
                         }
                     });
                 }

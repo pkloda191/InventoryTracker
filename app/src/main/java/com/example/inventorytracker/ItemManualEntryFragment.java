@@ -43,6 +43,7 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
     {
         super.onViewCreated(view, savedInstanceState);
         Button addItemButton = (Button)getActivity().findViewById(R.id.addItemButton);
+        EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
         addItemButton.setOnClickListener(this);
         addImageSelectionOnSpinner();
         addCategoriesOnSpinner();
@@ -50,8 +51,8 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         addListenerOnSpinnerItemSelection();
         if (Core.itemEditName != null)
         {
-            EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
-            itemNameET.setText(Core.itemEditName);
+            itemNameET.setText(Core.itemEditName); //sets the text of the edit text if updating an item
+            Core.itemEditName = null;
         }
     }
 
@@ -82,9 +83,20 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         }
         if (itemWasUpdated == false)
         {
-            Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
-            Core.addItemDB(item);
-            Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+            if (QrCodeScanningFragment.qrCodeItemFound == true)
+            {
+                Item item = new Item(itemImage, itemName, itemLocation);
+                Core.addItemDB(item);
+                Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+                QrCodeScanningFragment.qrCodeItemFound = false;
+            }
+            else
+            {
+                Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
+                Core.addItemDB(item);
+                Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+            }
+
         }
         //String itemLocation = itemLocationET.getText().toString();
         //int itemQuantity = Integer.parseInt(itemQuantityET.getText().toString());
