@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.Map;
+
 public class ViewInventoryFragment extends ListFragment
 {
     ListView lv;
@@ -40,9 +42,8 @@ public class ViewInventoryFragment extends ListFragment
         lv.setOnItemClickListener(new CustomOnItemClickListenerMoreDetails()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
                 super.onItemClick(parent, view, position, id);
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 // Add the buttons
                 final Item selectedItem = (Item) parent.getItemAtPosition(position);
@@ -54,17 +55,39 @@ public class ViewInventoryFragment extends ListFragment
                     {
                         //user wants to edit the item
                         //display another dialog box?
+                        //update in database
                         Core.itemEditName = selectedItem.getItem_name();
                         Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ItemManualEntryFragment()).addToBackStack("tag").commit();
                     }
                 });
-                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener()
+                {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        //Core.myRef.getRoot().child("items").child(Core.keyList.get(position)).removeValue();
-                        Core.itemList.remove(position);
-                        Core.itemAdapterNameLocation.notifyDataSetChanged();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); //create are you sure dialog
+                        builder.setTitle("Delete this item?").setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //delete the item
+                                for(Map.Entry m:Core.itemKeyMap.entrySet())
+                                {
+                                    if (m.getKey() == parent.getItemAtPosition(position).toString())
+                                    {
+                                        Core.myRef.getRoot().child("items").child("" + m.getValue()).removeValue();
+                                    }
+                                }
+                                Core.itemList.remove(position);
+                                Core.itemAdapterNameLocation.notifyDataSetChanged();
+                            }
+                        })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //do nothing
+                                    }
+                                }).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

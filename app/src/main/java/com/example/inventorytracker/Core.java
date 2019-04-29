@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -24,6 +26,7 @@ public class Core extends Fragment
     public static FragmentManager fragmentManager;
     public static ArrayList<Item> itemList = new ArrayList<>(); //view inventory fragment after categories, filters to show appropriate items
     public static ArrayList<Item> allItems = new ArrayList<>(); //will need this for QR code item detection; if already exists, present one dialog box, else new entry box
+    public static Map<String, String> itemKeyMap = new HashMap<String, String>();
     public static ArrayList<ItemCategories> itemCategoriesList = new ArrayList<>();
     public static ArrayList<ItemLocations> itemLocationList = new ArrayList<>();
     public static int optiplexListItemAmount;
@@ -50,11 +53,13 @@ public class Core extends Fragment
                 Core.numItems = 0;
                 Core.allItems.removeAll(allItems);
                 Core.keyList.removeAll(keyList);
+                Core.itemKeyMap = new HashMap<String, String>();
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Item itemInDatabase = ds.getValue(Item.class);
                     Core.keyList.add(ds.getKey());
                     Core.addItemLocal(itemInDatabase);
+                    itemKeyMap.put(itemInDatabase.getItem_name(), ds.getKey());
                 }
                 Core.itemAdapterNameLocation.notifyDataSetChanged();
             }
@@ -145,27 +150,6 @@ public class Core extends Fragment
 
     public static void addItemLocal(Item item)
     {
-        /*
-        if (item.getItem_name().contains("Optiplex"))
-        {
-            //Core.optiplexList.add(item);
-            Core.optiplexListItemAmount++;
-        }
-        else if(item.getItem_name().contains("Latitude"))
-        {
-            //Core.latitudeList.add(item);
-            Core.latitudeListItemAmount++;
-        }
-        else if(item.getItem_name().contains("Monitor"))
-        {
-            //Core.monitorList.add(item);
-            Core.monitorListItemAmount++;
-        }
-        else
-        {
-            System.out.println("nothing");
-        }
-        */
         Core.allItems.add(item);
         Core.numItems++;
     }

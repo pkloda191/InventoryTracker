@@ -2,12 +2,14 @@ package com.example.inventorytracker;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,8 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,18 +47,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //loginPage.replace(R.id.content_frame, new LoginPage()).commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 makeDialogBox();
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerStateChanged(int newState) {
                 super.onDrawerStateChanged(newState);
@@ -115,7 +116,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id == R.id.action_search)
         {
-            //search for items
+            for (int i = 0; i < Core.allItems.size(); i++)
+            {
+                System.out.println("*** " + Core.allItems.get(i).toString());
+            }
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            final EditText userSearchET = new EditText(MainActivity.this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            userSearchET.setLayoutParams(lp);
+            userSearchET.setHint("Item name");
+            userSearchET.setPaddingRelative(65,30,0,0);
+            userSearchET.setBackground(null);
+
+            alert.setTitle("Search for an item");
+            alert.setView(userSearchET);
+            alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton)
+                {
+                    Core.itemList.removeAll(Core.itemList);
+                    String searchText = userSearchET.getText().toString().toLowerCase();
+                    for (int i = 0; i < Core.allItems.size(); i++)
+                    {
+                        String nameToCompareTo = Core.allItems.get(i).toString().toLowerCase();
+                        if (nameToCompareTo.contains(searchText))
+                        {
+                            Core.itemList.add(Core.allItems.get(i));
+                        }
+                    }
+                    Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
+                }
+            });
+
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //do nothing
+                }
+            });
+
+            final AlertDialog dialog = alert.create();
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface arg0)
+                {
+                    dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#00574B"));
+                    dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#00574B"));
+                }
+            });
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
