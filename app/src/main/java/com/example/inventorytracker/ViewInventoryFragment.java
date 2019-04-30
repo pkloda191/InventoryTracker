@@ -14,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.Map;
 
 public class ViewInventoryFragment extends ListFragment
@@ -54,15 +52,13 @@ public class ViewInventoryFragment extends ListFragment
                     public void onClick(DialogInterface dialog, int id)
                     {
                         //user wants to edit the item
-                        //display another dialog box?
-                        //update in database
                         Core.itemEditName = selectedItem.getItem_name();
                         Core.itemNotes = selectedItem.getNotes();
                         for (int i = 0; i < Core.itemLocationList.size(); i++)
                         {
                             if (!Core.itemLocationList.get(i).getItem_location().equals(selectedItem.getLocation()))
                             {
-                                Core.locationIndex++;
+                                Core.locationIndex++; //sets spinner to items location
                             }
                             else
                             {

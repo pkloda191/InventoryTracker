@@ -74,7 +74,6 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         FragmentManager fragmentManager = getFragmentManager();
         EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
         EditText itemNotesET = (EditText)getActivity().findViewById(R.id.itemNotesET);
-        //EditText itemQuantityET = (EditText)getActivity().findViewById(R.id.itemQuantityET);
         String itemName = itemNameET.getText().toString();
         String notes = itemNotesET.getText().toString();
         setItemImage();
@@ -124,12 +123,8 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
                     Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
                 }
             }
-
         }
-        //String itemLocation = itemLocationET.getText().toString();
-        //int itemQuantity = Integer.parseInt(itemQuantityET.getText().toString());
         fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).addToBackStack("tag").commit();
-
     }
 
     public void addImageSelectionOnSpinner()
