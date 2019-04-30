@@ -9,6 +9,7 @@ public class CustomOnItemClickListener implements AdapterView.OnItemClickListene
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
+        Core.spinnerIndex = position;
         String name = parent.getItemAtPosition(position).toString();
         name = name.substring(0,3);
         //Toast.makeText(parent.getContext(), "" + Core.itemCategoriesList.size(), Toast.LENGTH_SHORT).show();

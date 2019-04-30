@@ -44,8 +44,8 @@ public class ItemCustomArrayAdapter extends ArrayAdapter<Item>
         TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentItem.getItem_name());
 
-        TextView quantity = (TextView) listItem.findViewById(R.id.textView_quantity);
-        quantity.setText((currentItem.getQuantity()));
+        //TextView quantity = (TextView) listItem.findViewById(R.id.textView_quantity);
+        //quantity.setText((currentItem.getQuantity()));
 
         return listItem;
     }

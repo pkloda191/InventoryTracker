@@ -7,14 +7,14 @@ public class Item implements Serializable
     public int mImageDrawable;
     public String item_name;
     public String location;
-    public int quantity;
+    public String notes;
 
-    public Item(int mImageDrawable, String item_name, String location, int quantity)
+    public Item(int mImageDrawable, String item_name, String location, String notes)
     {
         this.mImageDrawable = mImageDrawable;
         this.item_name = item_name;
         this.location = location;
-        this.quantity = quantity;
+        this.notes = notes;
     }
 
     public Item(int mImageDrawable, String item_name, String location)
@@ -24,25 +24,12 @@ public class Item implements Serializable
         this.location = location;
     }
 
-    public Item(String item_name, String location, int quantity)
-    {
-        this.item_name = item_name;
-        this.location = location;
-        this.quantity = quantity;
-    }
-
-    public Item(int mImageDrawable, String item_name, int quantity)
-    {
-        this.mImageDrawable = mImageDrawable;
-        this.item_name = item_name;
-        this.quantity = quantity;
-    }
     public Item()
     {
         this.mImageDrawable = R.drawable.ic_laptop;
         this.item_name = "Test";
         this.location = "Test";
-        this.quantity = 1;
+        this.notes = "";
     }
 
     @Override
@@ -63,22 +50,22 @@ public class Item implements Serializable
     }
     @Exclude
     public String getLocation() {
-        return "Located in: "+ location;
+        return location;
     }
     @Exclude
     public void setLocation(String location) {
         this.location = location;
     }
     @Exclude
-    public String getQuantity() {
-        return "Amount: " + Integer.toString(quantity);
-    }
-    @Exclude
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    @Exclude
     public void setmImageDrawable(int mImageDrawable) {
         this.mImageDrawable = mImageDrawable;
+    }
+    @Exclude
+    public String getNotes() {
+        return notes;
+    }
+    @Exclude
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

@@ -44,7 +44,7 @@ public class ItemCustomArrayAdapterNameLocation extends ArrayAdapter<Item>
         name.setText(currentItem.getItem_name());
 
         TextView location = (TextView) listItem.findViewById(R.id.textView_location);
-        location.setText((currentItem.getLocation()));
+        location.setText(("Located in: " + currentItem.getLocation()));
 
         return listItem;
     }

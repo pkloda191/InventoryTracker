@@ -29,9 +29,6 @@ public class Core extends Fragment
     public static Map<String, String> itemKeyMap = new HashMap<String, String>();
     public static ArrayList<ItemCategories> itemCategoriesList = new ArrayList<>();
     public static ArrayList<ItemLocations> itemLocationList = new ArrayList<>();
-    public static int optiplexListItemAmount;
-    public static int latitudeListItemAmount;
-    public static int monitorListItemAmount;
     public static int numItems = 0;
     public static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public static DatabaseReference myRef = database.getReference("items");
@@ -40,6 +37,9 @@ public class Core extends Fragment
     public static FirebaseAuth auth;
     public static int imageToUseForItem;
     public static String itemEditName = null;
+    public static String itemNotes = "";
+    public static int spinnerIndex = 0;
+    public static int locationIndex = 0;
 
     public static void listenForDatabaseChanges()
     {
@@ -182,9 +182,9 @@ public class Core extends Fragment
     public static void generateTestData(int numTimes)
     {
         for(int i = 1; i < numTimes; i++) {
-            addItemDB(new Item(R.drawable.ic_desktop, "Optiplex 390 " + "("+ i +")", "S104", 1));
-            addItemDB(new Item(R.drawable.ic_laptop, "Latitude E5450 " + "("+ i +")", "S103", 1));
-            addItemDB(new Item(R.drawable.ic_monitor, "Dell Monitor " + "("+ i +")", "IT Office", 1));
+            addItemDB(new Item(R.drawable.ic_desktop, "Optiplex 390 " + "("+ i +")", "Close Storage", "test notes"));
+            addItemDB(new Item(R.drawable.ic_laptop, "Latitude E5450 " + "("+ i +")", "Far Storage", "test notes"));
+            addItemDB(new Item(R.drawable.ic_monitor, "Dell Monitor " + "("+ i +")", "IT Office", "test notes"));
         }
     }
 

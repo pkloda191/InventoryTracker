@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ItemManualEntryFragment extends Fragment implements View.OnClickListener
 {
@@ -44,14 +45,19 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         super.onViewCreated(view, savedInstanceState);
         Button addItemButton = (Button)getActivity().findViewById(R.id.addItemButton);
         EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
+        EditText itemNotesET = (EditText)getActivity().findViewById(R.id.itemNotesET);
         addItemButton.setOnClickListener(this);
         addImageSelectionOnSpinner();
         addCategoriesOnSpinner();
         addLocationsOnSpinner();
         addListenerOnSpinnerItemSelection();
-        if (Core.itemEditName != null)
+        if (Core.itemEditName != null) //fill fields if coming from edit button
         {
             itemNameET.setText(Core.itemEditName); //sets the text of the edit text if updating an item
+            itemNotesET.setText(Core.itemNotes);
+            categoriesSpinner.setSelection(Core.spinnerIndex);
+            locationSpinner.setSelection(Core.locationIndex);
+            Core.locationIndex = 0;
             Core.itemEditName = null;
         }
     }
@@ -65,25 +71,35 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
 
         FragmentManager fragmentManager = getFragmentManager();
         EditText itemNameET = (EditText)getActivity().findViewById(R.id.itemNameET);
-        //EditText itemLocationET = (EditText)getActivity().findViewById(R.id.itemLocationET);
+        EditText itemNotesET = (EditText)getActivity().findViewById(R.id.itemNotesET);
         //EditText itemQuantityET = (EditText)getActivity().findViewById(R.id.itemQuantityET);
         String itemName = itemNameET.getText().toString();
+        String notes = itemNotesET.getText().toString();
         setItemImage();
         boolean itemWasUpdated = false;
         for (int i = 0; i < Core.allItems.size(); i++)
         {
-            if (Core.allItems.get(i).getItem_name().contains(itemName))
-            {
-                Core.allItems.get(i).setmImageDrawable(itemImage);
-                Core.allItems.get(i).setLocation(itemLocation);
-                itemWasUpdated = true;
-                Toast.makeText(getActivity(), "Item updated", Toast.LENGTH_SHORT).show();
-                //item change does not save in DB
-            }
+                if (Core.allItems.get(i).getItem_name().contains(itemName)) //if item already exists in the database
+                {
+                    for(Map.Entry m : Core.itemKeyMap.entrySet())
+                    {
+                        if (m.getKey() == Core.allItems.get(i).getItem_name()) //update it in the database
+                        {
+                            Core.myRef.child(""+ m.getValue()).child("location").setValue(itemLocation);
+                            Core.myRef.child(""+ m.getValue()).child("notes").setValue(notes);
+                        }
+                    }
+                    Core.allItems.get(i).setmImageDrawable(itemImage);
+                    Core.allItems.get(i).setLocation(itemLocation);
+                    Core.allItems.get(i).setNotes(notes);
+                    itemWasUpdated = true;
+                    Toast.makeText(getActivity(), "Item updated", Toast.LENGTH_SHORT).show(); //handling if the name is updated
+                }
         }
+
         if (itemWasUpdated == false)
         {
-            if (QrCodeScanningFragment.qrCodeItemFound == true)
+            if (QrCodeScanningFragment.qrCodeItemFound == true) //does not already exist in database, create new entry from qr code scan
             {
                 Item item = new Item(itemImage, itemName, itemLocation);
                 Core.addItemDB(item);
@@ -92,9 +108,19 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
             }
             else
             {
-                Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
-                Core.addItemDB(item);
-                Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+                if (itemName != Core.itemEditName) //if name is changed, create a new item
+                {
+                    Item item = new Item(itemImage, itemName, itemLocation, notes);
+                    Core.addItemDB(item);
+                    Core.itemEditName = null;
+                    Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
+                    Core.addItemDB(item);
+                    Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
+                }
             }
 
         }
