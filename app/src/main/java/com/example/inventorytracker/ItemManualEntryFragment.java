@@ -57,6 +57,8 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
             itemNotesET.setText(Core.itemNotes);
             categoriesSpinner.setSelection(Core.spinnerIndex);
             locationSpinner.setSelection(Core.locationIndex);
+            categoriesSpinner.setEnabled(false);
+            imageSpinner.setEnabled(false);
             Core.locationIndex = 0;
             Core.itemEditName = null;
         }
