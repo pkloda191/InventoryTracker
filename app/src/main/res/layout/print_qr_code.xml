@@ -12,7 +12,23 @@
         android:id="@+id/edt_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter text for QR code" />
+        android:hint="Enter text for QR code"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="or select an item from the database"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/item_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

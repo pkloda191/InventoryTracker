@@ -1,7 +1,13 @@
 package com.example.inventorytracker;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.CancellationSignal;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentInfo;
+import android.print.PrintManager;
+import android.print.pdf.PrintedPdfDocument;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -14,11 +20,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.zxing.WriterException;
+
+import java.util.ArrayList;
+
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import androidmads.library.qrgenearator.QRGSaver;
@@ -28,6 +40,7 @@ public class PrintQRCodeFragment extends Fragment
 {
     private static final int MY_PERMISSIONS_REQUEST_STORAGE = 0;
     boolean generateButtonClicked = false;
+    Spinner itemSpinner;
 
     View myView;
     @Nullable
@@ -55,6 +68,7 @@ public class PrintQRCodeFragment extends Fragment
         edtValue = (EditText)getActivity().findViewById(R.id.edt_value);
         start = (Button)getActivity().findViewById(R.id.start);
         save = (Button)getActivity().findViewById(R.id.save);
+        addItemsOnSpinner();
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +128,31 @@ public class PrintQRCodeFragment extends Fragment
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        });
+    }
+
+    public void addItemsOnSpinner()
+    {
+        itemSpinner = (Spinner)getActivity().findViewById(R.id.item_spinner);
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("No Selection");
+        for (int i = 0; i < Core.allItems.size(); i++)
+        {
+            list.add(Core.allItems.get(i).getItem_name());
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        itemSpinner.setAdapter(dataAdapter);
+        itemSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                super.onItemSelected(parent, view, pos, id);
+                if (!parent.getItemAtPosition(pos).toString().contains("No Selection"))
+                {
+                    edtValue.setText(parent.getItemAtPosition(pos).toString());
                 }
             }
         });
