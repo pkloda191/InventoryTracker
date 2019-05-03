@@ -2,7 +2,7 @@ package com.example.inventorytracker;
 import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 
-public class Item implements Serializable
+public class Item implements Serializable, Comparable<Item>
 {
     public int mImageDrawable;
     public String item_name;
@@ -30,6 +30,19 @@ public class Item implements Serializable
         this.item_name = "Test";
         this.location = "Test";
         this.notes = "";
+    }
+
+    @Override
+    public int compareTo(Item other)
+    {
+        if (Core.sortIndex == true)
+        {
+            return this.getLocation().compareTo(other.getLocation());
+        }
+        else
+        {
+            return this.getItem_name().compareTo(other.getItem_name());
+        }
     }
 
     @Override

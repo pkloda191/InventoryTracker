@@ -3,13 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_view_all"
+        android:orderInCategory="100"
+        android:title="View All Items"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_search"
         android:orderInCategory="100"
         android:title="Search Inventory"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_view_all"
+        android:id="@+id/action_sort_by"
         android:orderInCategory="100"
-        android:title="View All Items"
+        android:title="Sort by..."
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sign_out"
+        android:orderInCategory="100"
+        android:title="Sign Out"
         app:showAsAction="never" />
 </menu>

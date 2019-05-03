@@ -39,6 +39,7 @@ public class Core extends Fragment
     public static String itemNotes = "";
     public static int spinnerIndex = 0;
     public static int locationIndex = 0;
+    public static boolean sortIndex = false;
 
     public static void listenForDatabaseChanges()
     {

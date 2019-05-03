@@ -54,6 +54,15 @@ public class LoginPage extends Fragment implements View.OnClickListener
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
         {
+            if(TextUtils.isEmpty(email))
+            {
+                emailField.setError("Required");
+            }
+
+            if(TextUtils.isEmpty(password))
+            {
+                passwordField.setError("Required");
+            }
             Toast.makeText(getActivity(), "Login fields are empty", Toast.LENGTH_LONG).show();
         }
         else {
@@ -86,7 +95,16 @@ public class LoginPage extends Fragment implements View.OnClickListener
 
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
         {
-            Toast.makeText(getActivity(), "Login fields are empty", Toast.LENGTH_LONG).show();
+            if(TextUtils.isEmpty(email))
+            {
+                emailField.setError("Required");
+            }
+
+            if(TextUtils.isEmpty(password))
+            {
+                passwordField.setError("Required");
+            }
+            Toast.makeText(getActivity(), "Login fields are empty, cannot create account", Toast.LENGTH_LONG).show();
         }
         else
         {

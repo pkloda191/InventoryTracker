@@ -20,12 +20,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_view_all) {
+            Core.itemList.removeAll(Core.itemList);
             for (int i = 0; i < Core.allItems.size(); i++)
             {
                 Core.itemList.add(Core.allItems.get(i));
@@ -165,6 +173,84 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             dialog.show();
+        }
+        else if (id == R.id.action_sort_by) {
+            //Collections.sort(Core.itemList);
+            //Collections.sort(Core.itemList, Collections.reverseOrder());
+            //Core.itemAdapterNameLocation.notifyDataSetChanged();
+            Core.sortIndex = false;
+            final AlertDialog.Builder b = new AlertDialog.Builder(this);
+            b.setTitle("Sort by (1/2)");
+            String[] types = {"Ascending", "Descending"};
+            b.setItems(types, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    //DIALOGCEPTION
+                    dialog.dismiss();
+                    switch(which){
+                        case 0:
+                            //sort ascending
+                            b.setTitle("Sort by (2/2)");
+                            String[] types = {"Name", "Location"};
+                            b.setItems(types, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    dialog.dismiss();
+                                    switch(which){
+                                        case 0:
+                                            //sort by name
+                                            Collections.sort(Core.itemList);
+                                            Core.itemAdapterNameLocation.notifyDataSetChanged();
+                                            break;
+                                        case 1:
+                                            //sort by location
+                                            Core.sortIndex = true;
+                                            Collections.sort(Core.itemList);
+                                            Core.itemAdapterNameLocation.notifyDataSetChanged();
+                                            break;
+                                    }
+                                }
+                            });
+                            b.show();
+                            break;
+                        case 1:
+                            //sort descending
+                            b.setTitle("Sort by (2/2)");
+                            String[] types2 = {"Name", "Location"};
+                            b.setItems(types2, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    dialog.dismiss();
+                                    switch(which){
+                                        case 0:
+                                            //sort by name
+                                            Collections.sort(Core.itemList, Collections.reverseOrder());
+                                            Core.itemAdapterNameLocation.notifyDataSetChanged();
+                                            break;
+                                        case 1:
+                                            //sort by location
+                                            Core.sortIndex = true;
+                                            Collections.sort(Core.itemList, Collections.reverseOrder());
+                                            Core.itemAdapterNameLocation.notifyDataSetChanged();
+                                            break;
+                                    }
+                                }
+                            });
+                            b.show();
+                            break;
+                    }
+                }
+            });
+            b.show();
+        }
+
+        else if (id == R.id.action_sign_out)
+        {
+            Core.auth.getInstance().signOut();
+            Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new LoginPage()).commit();
         }
         return super.onOptionsItemSelected(item);
     }
