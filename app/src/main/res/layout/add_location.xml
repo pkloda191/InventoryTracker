@@ -38,6 +38,8 @@
         android:layout_marginTop="32dp"
         android:text="Add Location"
         android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_location_ET" />
 

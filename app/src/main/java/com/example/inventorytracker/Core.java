@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Core extends Fragment
 {
-    public static ItemCustomArrayAdapter itemAdapter;
     public static CategoryCustomArrayAdapter categoriesAdapter;
     public static ItemCustomArrayAdapterNameLocation itemAdapterNameLocation;
     final static ArrayList<String> keyList = new ArrayList<>();
@@ -40,6 +39,8 @@ public class Core extends Fragment
     public static int spinnerIndex = 0;
     public static int locationIndex = 0;
     public static boolean sortIndex = false;
+    public static Object itemClicked;
+    public static ItemCategories itemClicked2;
 
     public static void listenForDatabaseChanges()
     {
@@ -53,7 +54,7 @@ public class Core extends Fragment
                 Core.numItems = 0;
                 Core.allItems.removeAll(allItems);
                 Core.keyList.removeAll(keyList);
-                Core.itemKeyMap = new HashMap<String, String>();
+                Core.itemKeyMap.clear();
                 for(DataSnapshot ds: dataSnapshot.getChildren())
                 {
                     Item itemInDatabase = ds.getValue(Item.class);
@@ -190,13 +191,25 @@ public class Core extends Fragment
 
     public static void generateCategories()
     {
-        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex Desktops", Core.numItems));
-        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude Laptops", Core.numItems));
-        addCategoryDB(new ItemCategories(R.drawable.ic_monitor, "Monitors", Core.numItems));
+        //addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex Desktops", Core.numItems));
+        //addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude Laptops", Core.numItems));
+        //addCategoryDB(new ItemCategories(R.drawable.ic_monitor, "Monitors", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 380", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 390", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 3010", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 3020", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 3040", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 3050", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_desktop, "Optiplex 3060", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E5450", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E5470", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E5480", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E6420", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E6430", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_laptop, "Latitude E6440", Core.numItems));
+        addCategoryDB(new ItemCategories(R.drawable.ic_monitor, "iMac", Core.numItems));
 
-        //Core.itemList.add(new Item(R.drawable.ic_desktop, "Optiplex Desktops", Core.optiplexListItemAmount));
-        //Core.itemList.add(new Item(R.drawable.ic_laptop, "Latitude Laptops", Core.latitudeListItemAmount));
-        //Core.itemList.add(new Item(R.drawable.ic_monitor, "Monitors", Core.monitorListItemAmount));
+
     }
 
     public static void generateLocations()
@@ -204,6 +217,10 @@ public class Core extends Fragment
         addLocationDB(new ItemLocations("Close Storage"));
         addLocationDB(new ItemLocations("Far Storage"));
         addLocationDB(new ItemLocations("IT Office"));
+        addLocationDB(new ItemLocations("Desk"));
+        addLocationDB(new ItemLocations("S105"));
+        addLocationDB(new ItemLocations("S107"));
+        addLocationDB(new ItemLocations("S114D"));
     }
 /*
     public static String getBallers()

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:background="@drawable/login_page_background"
+    >
 
     <EditText
         android:id="@+id/emailField"
@@ -42,7 +44,9 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="Login"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:background="@drawable/button_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +60,9 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="Create Account"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"

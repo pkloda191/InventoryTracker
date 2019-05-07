@@ -11,7 +11,7 @@ public class CustomOnItemClickListener implements AdapterView.OnItemClickListene
     {
         Core.spinnerIndex = position;
         String name = parent.getItemAtPosition(position).toString();
-        name = name.substring(0,3);
+        //name = name.substring(0,3);
         //Toast.makeText(parent.getContext(), "" + Core.itemCategoriesList.size(), Toast.LENGTH_SHORT).show();
         for (int i = 0; i < Core.allItems.size(); i++)
         {

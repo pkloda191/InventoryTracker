@@ -41,6 +41,9 @@
             android:id="@+id/start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:background="@drawable/button_background"
             android:text="Generate" />
 
         <Button
@@ -48,6 +51,9 @@
             android:id="@+id/save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:background="@drawable/button_background"
             android:text="Save" />
     </LinearLayout>
 

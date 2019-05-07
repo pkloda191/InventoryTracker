@@ -47,7 +47,7 @@ public class ViewCategoriesFragment extends ListFragment {
         for (int i = 0; i < Core.itemCategoriesList.size(); i++)
         {
             String nameToCompareTo = Core.itemCategoriesList.get(i).toString();
-            nameToCompareTo = nameToCompareTo.substring(0,3);
+            //nameToCompareTo = nameToCompareTo.substring(0,3);
 
             for (int j = 0; j < Core.allItems.size(); j++)
             {

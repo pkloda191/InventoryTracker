@@ -27,6 +27,7 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
     private Spinner locationSpinner;
     private int count = 1;
     String firstWordOfCategory;
+    String categoryName;
     String itemLocation;
     int itemImage;
     View myView;
@@ -80,7 +81,7 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
         boolean itemWasUpdated = false;
         for (int i = 0; i < Core.allItems.size(); i++)
         {
-                if (Core.allItems.get(i).getItem_name().contains(itemName)) //if item already exists in the database
+                if (Core.allItems.get(i).getItem_name().contentEquals(itemName)) //if item already exists in the database
                 {
                     for(Map.Entry m : Core.itemKeyMap.entrySet())
                     {
@@ -94,7 +95,7 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
                     Core.allItems.get(i).setLocation(itemLocation);
                     Core.allItems.get(i).setNotes(notes);
                     itemWasUpdated = true;
-                    Toast.makeText(getActivity(), "Item updated", Toast.LENGTH_SHORT).show(); //handling if the name is updated
+                    Toast.makeText(getActivity(), "Item Updated", Toast.LENGTH_SHORT).show(); //handling if the name is updated
                 }
         }
 
@@ -109,19 +110,10 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
             }
             else
             {
-                if (itemName != Core.itemEditName) //if name is changed, create a new item
-                {
-                    Item item = new Item(itemImage, itemName, itemLocation, notes);
-                    Core.addItemDB(item);
-                    Core.itemEditName = null;
-                    Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
-                    Core.addItemDB(item);
-                    Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
-                }
+                Item item = new Item(itemImage, categoryName + " " + "(" + count + ")", itemLocation);
+                //Item item = new Item(itemImage, firstWordOfCategory + " " + itemName + " " + "(" + count + ")", itemLocation);
+                Core.addItemDB(item);
+                Toast.makeText(getActivity(), "Item added", Toast.LENGTH_SHORT).show();
             }
         }
         fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).addToBackStack("tag").commit();
@@ -156,21 +148,25 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
                 super.onItemSelected(parent, view, pos, id);
                 firstWordOfCategory = null;
                 count = 1;
-
                 String name = parent.getItemAtPosition(pos).toString();
-                if(name.contains(" "))
+                categoryName = name;
+                if(name.contains("Optiplex"))
                 {
-                    firstWordOfCategory = name.substring(0, name.indexOf(" "));
+                    Core.imageToUseForItem = 0;
+                }
+                else if (name.contains("Latitude"))
+                {
+                    Core.imageToUseForItem = 1;
                 }
                 else
                     {
-                    firstWordOfCategory = name;
+                    Core.imageToUseForItem = 2;
                 }
 
                 for (int i = 0; i < Core.allItems.size(); i++)
                 {
                     // choose category, write in model name, concactenate number after name
-                    if (Core.allItems.get(i).getItem_name().contains(firstWordOfCategory))
+                    if (Core.allItems.get(i).getItem_name().contains(categoryName))
                     {
                         count++; //adds the value of count to the name at the end in ( )
                     }
@@ -183,7 +179,6 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
     {
         locationSpinner = (Spinner)getActivity().findViewById(R.id.location_spinner);
         ArrayList<String> list = new ArrayList<String>();
-
         for (int i = 0; i < Core.itemLocationList.size(); i++)
         {
             list.add(Core.itemLocationList.get(i).getItem_location());
