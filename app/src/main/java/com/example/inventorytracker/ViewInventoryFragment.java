@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class ViewInventoryFragment extends ListFragment
@@ -25,6 +26,7 @@ public class ViewInventoryFragment extends ListFragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         myView = inflater.inflate(R.layout.view_inventory, container, false);
+        Collections.sort(Core.itemList);
         Core.itemAdapterNameLocation = new ItemCustomArrayAdapterNameLocation(getActivity(), Core.itemList);
         setListAdapter(Core.itemAdapterNameLocation);
         Core.itemAdapterNameLocation.notifyDataSetChanged();
@@ -84,6 +86,7 @@ public class ViewInventoryFragment extends ListFragment
                                     if (m.getKey() == parent.getItemAtPosition(position).toString())
                                     {
                                         Core.myRef.getRoot().child("items").child("" + m.getValue()).removeValue();
+                                        Toast.makeText(getActivity(), "Item deleted", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 Core.itemList.remove(position);

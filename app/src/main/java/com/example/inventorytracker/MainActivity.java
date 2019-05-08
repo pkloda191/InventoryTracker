@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         preLoadInventoryPage.replace(R.id.content_frame, new ViewInventoryFragment()).commit();
         FragmentTransaction LoadCategoryPage = getSupportFragmentManager().beginTransaction();
         LoadCategoryPage.replace(R.id.content_frame, new ViewCategoriesFragment()).commit();
-        //FragmentTransaction loginPage = getSupportFragmentManager().beginTransaction();
-        //loginPage.replace(R.id.content_frame, new LoginPage()).commit();
+        FragmentTransaction loginPage = getSupportFragmentManager().beginTransaction();
+        loginPage.replace(R.id.content_frame, new LoginPage()).commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         //Core.generateTestData(5);
+        //Core.generateNewTestData();
         //Core.generateCategories();
         //Core.generateLocations();
         Core.listenForDatabaseChanges();

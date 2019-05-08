@@ -26,7 +26,6 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
     private Spinner categoriesSpinner;
     private Spinner locationSpinner;
     private int count = 1;
-    String firstWordOfCategory;
     String categoryName;
     String itemLocation;
     int itemImage;
@@ -146,7 +145,6 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 super.onItemSelected(parent, view, pos, id);
-                firstWordOfCategory = null;
                 count = 1;
                 String name = parent.getItemAtPosition(pos).toString();
                 categoryName = name;
