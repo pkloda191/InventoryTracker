@@ -94,6 +94,7 @@ public class ItemManualEntryFragment extends Fragment implements View.OnClickLis
                     Core.allItems.get(i).setLocation(itemLocation);
                     Core.allItems.get(i).setNotes(notes);
                     itemWasUpdated = true;
+                    QrCodeScanningFragment.qrCodeItemFound = false;
                     Toast.makeText(getActivity(), "Item Updated", Toast.LENGTH_SHORT).show(); //handling if the name is updated
                 }
         }

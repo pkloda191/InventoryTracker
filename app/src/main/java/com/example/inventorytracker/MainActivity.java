@@ -125,10 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if(id == R.id.action_search)
         {
-            for (int i = 0; i < Core.allItems.size(); i++)
-            {
-                System.out.println("*** " + Core.allItems.get(i).toString());
-            }
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             final EditText userSearchET = new EditText(MainActivity.this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -154,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Core.itemList.add(Core.allItems.get(i));
                         }
                     }
+                    Collections.sort(Core.itemList);
                     Core.fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
                 }
             });

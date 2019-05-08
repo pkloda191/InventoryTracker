@@ -77,7 +77,7 @@ public class LoginPage extends Fragment implements View.OnClickListener
                         FirebaseUser user = Core.auth.getCurrentUser();
                         Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
                         FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).commit();
                     }
                     else
                         {
@@ -118,7 +118,7 @@ public class LoginPage extends Fragment implements View.OnClickListener
                         FirebaseUser user = Core.auth.getCurrentUser();
                         Toast.makeText(getActivity(), "Account created. Login Successful", Toast.LENGTH_LONG).show();
                         FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewInventoryFragment()).addToBackStack("tag").commit();
+                        fragmentManager.beginTransaction().replace(R.id.content_frame, new ViewCategoriesFragment()).commit();
                     }
                     else {
                         // If sign in fails, display a message to the user.
